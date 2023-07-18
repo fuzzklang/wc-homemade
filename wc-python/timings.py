@@ -1,9 +1,24 @@
 import timeit
 
-from typing import Any
+from typing import (
+    Any
+)
 
-from wc import count_all
-
+from wc import (
+    count_bytes_file,
+    count_lines_file,
+    count_words_file,
+    count_characters_file,
+    count_bytes_stream,
+    count_bytes_stream_buffered,
+    count_lines_stream_buffered,
+    count_words_stream,
+    count_words_binary_stream,
+    count_lines_chars_and_bytes,
+    count_lines_chars_and_bytes_b,
+    count_lines_chars_and_bytes_c,
+    count_all,
+)
 
 TESTFILE = "./test.txt"
 NUMBER_OF_EXC = 20
@@ -20,13 +35,73 @@ def run_timings() -> None:
 
     print("===== TIMINGS =====")
     print(f"  number of executions pr function: {NUMBER_OF_EXC}")
+    # args: <filepath>
+    file_functions = [
+        count_bytes_file,
+        count_lines_file,
+        count_words_file,
+        count_characters_file,
+    ]
+
+    print("--- Timing file reading functions ---")
+
+    print_stat_header()
+    for file_func in file_functions:
+        timing = timeit.timeit(lambda: file_func(TESTFILE), number=NUMBER_OF_EXC)
+        per_call = timing / NUMBER_OF_EXC * 1000 * 1000
+        print_stats(file_func.__name__, timing, per_call)
+
 
     print("\n--- Timing binary stream reading functions ---")
 
+    binary_stream_funcs = [
+        count_bytes_stream,
+        count_lines_chars_and_bytes_c,
+        count_all,
+    ]
+
     print_stat_header()
-    timing = timeit.timeit(lambda: context_wrapper(count_all, mode='rb'), number=NUMBER_OF_EXC)
-    per_call = timing / NUMBER_OF_EXC * 1000 * 1000
-    print_stats(count_all.__name__, timing, per_call)
+    for bin_func in binary_stream_funcs:
+        timing = timeit.timeit(lambda: context_wrapper(bin_func, mode='rb'), number=NUMBER_OF_EXC)
+        per_call = timing / NUMBER_OF_EXC * 1000 * 1000
+        print_stats(bin_func.__name__, timing, per_call)
+
+
+    # args: <stream>, <buf_size>
+    buffered_stream_funcs = [
+        count_bytes_stream_buffered,
+        count_lines_stream_buffered,
+        count_words_binary_stream,
+        count_lines_chars_and_bytes,
+        count_lines_chars_and_bytes_b,
+
+    ]
+
+    buffer_sizes = [
+        4096,
+        8192,
+        16384
+    ]
+
+    for buf_func in buffered_stream_funcs:
+        print()
+        for buf_size in buffer_sizes:
+            timing = timeit.timeit(lambda: context_wrapper(buf_func, mode='rb', buf_size=buf_size), number=NUMBER_OF_EXC)
+            per_call = timing / NUMBER_OF_EXC * 1000 * 1000
+            print_stats(buf_func.__name__, timing, per_call, buf_size)
+
+    # args: <stream>
+    text_stream_funcs = [
+        count_words_stream
+    ]
+
+    print("\n--- Timing text stream reading functions ---")
+
+    for text_func in text_stream_funcs:
+        timing = timeit.timeit(lambda: context_wrapper(text_func, mode='r'), number=NUMBER_OF_EXC)
+        per_call = timing / NUMBER_OF_EXC * 1000 * 1000
+        print_stats(text_func.__name__, timing, per_call)
+
 
 
 

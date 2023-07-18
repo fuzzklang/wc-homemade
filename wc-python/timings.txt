@@ -1,0 +1,37 @@
+===== TIMINGS =====
+  number of executions pr function: 20
+--- Timing file reading functions ---
+function                                total time            per call   buffer size (opt)
+count_bytes_file                         0.00005 s          2.26790 μs                    
+count_lines_file                         0.01990 s        994.77095 μs                    
+count_words_file                         0.08701 s       4350.27450 μs                    
+count_characters_file                    0.03014 s       1506.92070 μs                    
+
+--- Timing binary stream reading functions ---
+function                                total time            per call   buffer size (opt)
+count_bytes_stream                       0.01686 s        842.81085 μs                    
+count_lines_chars_and_bytes_c            0.61796 s      30897.77715 μs                    
+count_all                                0.13291 s       6645.59635 μs                    
+
+count_bytes_stream_buffered              0.00270 s        134.85610 μs                4096
+count_bytes_stream_buffered              0.00156 s         77.75645 μs                8192
+count_bytes_stream_buffered              0.00106 s         53.01585 μs               16384
+
+count_lines_stream_buffered              0.00758 s        378.91500 μs                4096
+count_lines_stream_buffered              0.00652 s        325.86310 μs                8192
+count_lines_stream_buffered              0.00597 s        298.60045 μs               16384
+
+count_words_binary_stream                0.10090 s       5045.17515 μs                4096
+count_words_binary_stream                0.10107 s       5053.57285 μs                8192
+count_words_binary_stream                0.10129 s       5064.60205 μs               16384
+
+count_lines_chars_and_bytes              0.97868 s      48933.84385 μs                4096
+count_lines_chars_and_bytes              0.94865 s      47432.69920 μs                8192
+count_lines_chars_and_bytes              0.95696 s      47848.12070 μs               16384
+
+count_lines_chars_and_bytes_b            0.60696 s      30348.22980 μs                4096
+count_lines_chars_and_bytes_b            0.57868 s      28933.99185 μs                8192
+count_lines_chars_and_bytes_b            0.58687 s      29343.51695 μs               16384
+
+--- Timing text stream reading functions ---
+count_words_stream                       0.09238 s       4619.24560 μs                    
