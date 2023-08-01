@@ -2,8 +2,6 @@
 
 Python implementation of the unix command line tool `wc`
 
-Inspired by [Coding Challenges](https://codingchallenges.fyi/challenges/challenge-wc/)
-
 The branch `wc-python-with-timings` contains several implementations of the functions with tests and timings.
 
 
